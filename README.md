@@ -48,12 +48,28 @@ class ExampleClass
     # Define some example data
     my_hash = {key1: "value1", key2: 123}
     my_array = [1, 2, 3, {nested_key: "nested_value"}]
-    my_object = OpenStruct.new(name: "Example", details: {detail_key: "detail_value"})
 
     # Use the dump method to output the structure of these objects
     dump(my_hash)
     dump(my_array)
-    dump(my_object)
   end
 end
+```
+
+Output:
+
+```
+{
+  :key1 => "value1",
+  :key2 => 123
+}=> nil
+
+[
+  1,
+  2,
+  3,
+  {
+    :nested_key => "nested_value"
+  }
+]=> nil
 ```
