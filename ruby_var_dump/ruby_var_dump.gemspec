@@ -38,4 +38,7 @@ Gem::Specification.new do |spec|
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
+
+  # gem build ruby_var_dump.gemspec
+  # gem push ruby_var_dump-x.x.x.gem
 end
