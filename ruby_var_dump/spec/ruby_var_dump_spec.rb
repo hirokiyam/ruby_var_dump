@@ -81,3 +81,5 @@ RSpec.describe RubyVarDump do
   end
 end
 
+# ObjectクラスにRubyVarDumpモジュールのメソッドを追加
+Object.include RubyVarDump
