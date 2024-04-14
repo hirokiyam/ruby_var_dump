@@ -50,8 +50,8 @@ class ExampleClass
     my_array = [1, 2, 3, {nested_key: "nested_value"}]
 
     # Use the dump method to output the structure of these objects
-    dump(my_hash)
-    dump(my_array)
+    dump my_hash
+    dump my_array
   end
 end
 ```
