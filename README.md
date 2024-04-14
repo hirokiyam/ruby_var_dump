@@ -36,6 +36,7 @@ include RubyVarDump
 
 ### method
 
+dump
 ```ruby
 dump "abc"
 ```
@@ -45,6 +46,7 @@ Output
 "abc"=> nil
 ```
 
+dump
 ```ruby
 item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
 dump item
