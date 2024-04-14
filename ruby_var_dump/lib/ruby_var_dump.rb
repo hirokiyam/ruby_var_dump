@@ -55,4 +55,5 @@ module RubyVarDump
       print indent + obj.inspect.chomp
     end
   end
+  print "\n"  # メソッドの出力の最後に改行を追加
 end
