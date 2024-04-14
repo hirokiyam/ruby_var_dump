@@ -34,6 +34,39 @@ To make RubyVarDump methods accessible in your class, add `include RubyVarDump` 
 include RubyVarDump
 ```
 
+### method
+
+```ruby
+dump "abc"
+```
+
+Output
+```
+"abc"=> nil
+```
+
+```ruby
+item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
+dump item
+```
+
+Output
+```
+{
+  :key1 => "value1",
+  :key2 => 1024,
+  :key3 => {
+    :key4 => {
+      :key5 => "value5",
+      :key6 => [
+        11,
+        22
+      ]
+    }
+  }
+}=> nil
+```
+
 ### Example Setup
 
 Here's a simple example to demonstrate how to include and use the RubyVarDump in a Ruby class:
