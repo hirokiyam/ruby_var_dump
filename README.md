@@ -47,6 +47,7 @@ touch config/initializers/setup_ruby_var_dump.rb
 2. Open the newly created setup_ruby_var_dump.rb file and add the following lines:
 
 ```ruby
+# config/initializers/setup_ruby_var_dump.rb
 require 'ruby_var_dump'
 Object.include RubyVarDump
 ```
