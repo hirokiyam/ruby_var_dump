@@ -34,6 +34,25 @@ To make RubyVarDump methods accessible in your class, add `include RubyVarDump` 
 include RubyVarDump
 ```
 
+### Usage in Rails
+
+To use RubyVarDump in a Rails application, you need to set it up as a global mixin so that its functionality is available throughout your application. Follow these steps:
+
+1. Create an initializer file in your Rails application:
+
+```bash
+touch config/initializers/setup_ruby_var_dump.rb
+```
+
+2. Open the newly created setup_ruby_var_dump.rb file and add the following lines:
+
+```ruby
+require 'ruby_var_dump'
+Object.include RubyVarDump
+```
+This setup will include the RubyVarDump module into the Ruby Object class, making the dump method globally available across all objects within your Rails application.
+
+
 ### method
 
 dump
