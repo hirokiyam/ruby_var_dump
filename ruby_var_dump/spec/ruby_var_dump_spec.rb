@@ -23,36 +23,36 @@ RSpec.describe RubyVarDump do
     context 'with simple objects' do
       it 'dumps strings' do
         output = capture_output { RubyVarDump.dump("hello") }
-        expect(output).to eq('"hello"')
+        expect(output).to eq("\"hello\"\n")
       end
 
       it 'dumps numbers' do
         output = capture_output { RubyVarDump.dump(123) }
-        expect(output).to eq('123')
+        expect(output).to eq("123\n")
       end
     end
 
     context 'with arrays' do
       it 'dumps empty arrays' do
         output = capture_output { RubyVarDump.dump([]) }
-        expect(output).to eq("[]")
+        expect(output).to eq("[]\n")
       end
 
       it 'dumps non-empty arrays' do
         output = capture_output { RubyVarDump.dump([1, "hello", [1, 2]]) }
-        expect(output).to eq("[\n  1,\n  \"hello\",\n  [\n    1,\n    2\n  ]\n]")
+        expect(output).to eq("[\n  1,\n  \"hello\",\n  [\n    1,\n    2\n  ]\n]\n")
       end
     end
 
     context 'with hashes' do
       it 'dumps empty hashes' do
         output = capture_output { RubyVarDump.dump({}) }
-        expect(output).to eq("{}")
+        expect(output).to eq("{}\n")
       end
 
       it 'dumps non-empty hashes' do
         output = capture_output { RubyVarDump.dump({key: "value", another_key: 123}) }
-        expect(output).to eq("{\n  :key => \"value\",\n  :another_key => 123\n}")
+        expect(output).to eq("{\n  :key => \"value\",\n  :another_key => 123\n}\n")
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe RubyVarDump do
         relation = DummyRelation.new([{id: 1, name: 'Alice'}, {id: 2, name: 'Bob'}])
 
         output = capture_output { RubyVarDump.dump(relation) }
-        expected_output = "[\n  {\n    :id => 1,\n    :name => \"Alice\"\n  },\n  {\n    :id => 2,\n    :name => \"Bob\"\n  }\n]"
+        expected_output = "[\n  {\n    :id => 1,\n    :name => \"Alice\"\n  },\n  {\n    :id => 2,\n    :name => \"Bob\"\n  }\n]\n"
         expect(output).to eq(expected_output)
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe RubyVarDump do
         dummy_object = double("Model", attributes: {id: 1, name: 'Alice'})
 
         output = capture_output { RubyVarDump.dump(dummy_object) }
-        expected_output = "{\n  :id => 1,\n  :name => \"Alice\"\n}"
+        expected_output = "{\n  :id => 1,\n  :name => \"Alice\"\n}\n"
         expect(output).to eq(expected_output)
       end
     end

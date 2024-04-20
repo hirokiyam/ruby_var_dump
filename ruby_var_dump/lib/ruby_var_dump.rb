@@ -12,6 +12,7 @@ module RubyVarDump
       print "#{is_value ? '' : indent}" + "["
       if obj.empty?
         print "]"
+        print "\n" if level == 0 # メソッドの出力の最後に改行を追加
       else
         print "\n"
         obj.each_with_index do |item, index|
@@ -20,11 +21,13 @@ module RubyVarDump
           print "\n"
         end
         print "#{indent}]"
+        print "\n" if level == 0 # メソッドの出力の最後に改行を追加
       end
     elsif obj.is_a?(Hash)
       print "#{is_value ? '' : indent}" + "{"
       if obj.empty?
         print "}"
+        print "\n" if level == 0 # メソッドの出力の最後に改行を追加
       else
         print "\n"
         obj.each_with_index do |(key, value), index|
@@ -39,6 +42,7 @@ module RubyVarDump
           print "\n"
         end
         print "#{indent}}"
+        print "\n" if level == 0 # メソッドの出力の最後に改行を追加
       end
     elsif defined?(ActiveRecord::Relation) && obj.is_a?(ActiveRecord::Relation)
       obj.each_with_index do |record, index|
@@ -47,13 +51,14 @@ module RubyVarDump
           print ",\n"
         else
           print "\n" # レコードの最後の場合は改行のみ
+          print "\n" if level == 0 # メソッドの出力の最後に改行を追加
         end
       end
     elsif obj.respond_to?(:attributes)
       dump(obj.attributes, level, false)
     else
       print indent + obj.inspect.chomp
+      print "\n"  if level == 0 # メソッドの出力の最後に改行を追加
     end
   end
-  print "\n"  # メソッドの出力の最後に改行を追加
 end
