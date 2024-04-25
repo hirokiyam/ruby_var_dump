@@ -28,10 +28,10 @@ gem install ruby_var_dump
 
 ### Including RubyVarDump
 
-To make RubyVarDump methods accessible in your class, add `include RubyVarDump` at the top of your class definition, right after the class declaration. This will mix in the RubyVarDump module methods as instance methods in your class.
+To make RubyVarDump methods accessible in your class, add `Object.include RubyVarDump` at the top of your class definition, right after the class declaration. This will mix in the RubyVarDump module methods as instance methods in your class.
 
 ```ruby
-include RubyVarDump
+Object.include RubyVarDump
 ```
 
 ### Usage in Rails
@@ -63,7 +63,8 @@ dump "abc"
 
 Output
 ```
-"abc"=> nil
+"abc"
+=> nil
 ```
 
 dump
@@ -86,7 +87,8 @@ Output
       ]
     }
   }
-}=> nil
+}
+=> nil
 ```
 
 ### Example Setup
@@ -117,7 +119,8 @@ Output:
 {
   :key1 => "value1",
   :key2 => 123
-}=> nil
+}
+=> nil
 
 [
   1,
@@ -126,5 +129,6 @@ Output:
   {
     :nested_key => "nested_value"
   }
-]=> nil
+]
+=> nil
 ```
