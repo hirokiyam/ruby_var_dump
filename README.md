@@ -35,6 +35,48 @@ This will mix in the RubyVarDump module methods as instance methods in your clas
 include RubyVarDump
 ```
 
+### Example Setup
+
+Here's a simple example to demonstrate how to include and use the RubyVarDump in a Ruby class:
+
+```ruby
+require 'ruby_var_dump'
+
+class ExampleClass
+  include RubyVarDump # This line mixes in RubyVarDump methods
+
+  def demonstrate_dump
+    # Define some example data
+    my_hash = {key1: "value1", key2: 123}
+    my_array = [1, 2, 3, {nested_key: "nested_value"}]
+
+    # Use the dump method to output the structure of these objects
+    dump my_hash
+    dump my_array
+  end
+end
+```
+
+Output:
+
+```
+{
+  :key1 => "value1",
+  :key2 => 123
+}
+=> nil
+
+[
+  1,
+  2,
+  3,
+  {
+    :nested_key => "nested_value"
+  }
+]
+=> nil
+```
+
 ### Usage in Rails
 
 To use RubyVarDump in a Rails application, you need to set it up as a global mixin so that its functionality is available throughout your application. Follow these steps:
@@ -89,47 +131,5 @@ Output
     }
   }
 }
-=> nil
-```
-
-### Example Setup
-
-Here's a simple example to demonstrate how to include and use the RubyVarDump in a Ruby class:
-
-```ruby
-require 'ruby_var_dump'
-
-class ExampleClass
-  include RubyVarDump # This line mixes in RubyVarDump methods
-
-  def demonstrate_dump
-    # Define some example data
-    my_hash = {key1: "value1", key2: 123}
-    my_array = [1, 2, 3, {nested_key: "nested_value"}]
-
-    # Use the dump method to output the structure of these objects
-    dump my_hash
-    dump my_array
-  end
-end
-```
-
-Output:
-
-```
-{
-  :key1 => "value1",
-  :key2 => 123
-}
-=> nil
-
-[
-  1,
-  2,
-  3,
-  {
-    :nested_key => "nested_value"
-  }
-]
 => nil
 ```
