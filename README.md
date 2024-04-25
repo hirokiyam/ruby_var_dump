@@ -28,10 +28,11 @@ gem install ruby_var_dump
 
 ### Including RubyVarDump
 
-To make RubyVarDump methods accessible in your class, add `Object.include RubyVarDump` at the top of your class definition, right after the class declaration. This will mix in the RubyVarDump module methods as instance methods in your class.
+To make RubyVarDump methods accessible in your class, add `include RubyVarDump` at the top of your class definition to mix in the RubyVarDump module's methods. 
+This will mix in the RubyVarDump module methods as instance methods in your class.
 
 ```ruby
-Object.include RubyVarDump
+include RubyVarDump
 ```
 
 ### Usage in Rails
