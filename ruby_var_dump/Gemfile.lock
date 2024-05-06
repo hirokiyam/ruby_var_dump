@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ruby_var_dump (0.1.0)
+    ruby_var_dump (0.1.4)
 
 GEM
   remote: https://rubygems.org/

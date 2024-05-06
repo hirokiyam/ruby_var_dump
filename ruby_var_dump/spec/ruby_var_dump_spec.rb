@@ -83,3 +83,5 @@ end
 
 # ObjectクラスにRubyVarDumpモジュールのメソッドを追加
 Object.include RubyVarDump
+
+# bundle exec rspec spec/ruby_var_dump_spec.rb
