@@ -8,12 +8,14 @@ module RubyVarDump
   def dump(obj, klass=obj.class, level = 0, is_value = false, dumped_objects = [], is_first=true)
     indent = ' ' * level * 2
 
-    if dumped_objects.include?(obj.object_id)
-      puts "#{indent}<Recursive reference: #{obj.class}:#{obj.object_id}>"
-      return
+    if (defined?(ActiveRecord::Base) && obj.is_a?(ActiveRecord::Base)) || (defined?(ActiveRecord::Relation) && obj.is_a?(ActiveRecord::Relation))
+      if dumped_objects.any? { |dumped_obj| dumped_obj.object_id == obj.object_id && dumped_obj.class == obj.class }
+        puts "#{indent}<Recursive reference: #{obj.class}:#{obj.object_id}>"
+        return
+      else
+        dumped_objects << obj
+      end
     end
-  
-    dumped_objects << obj.object_id
 
     if obj.is_a?(Array)
       print "#{is_value ? '' : indent}" + "["
@@ -61,16 +63,18 @@ module RubyVarDump
       end
       # リレーションも再帰的にダンプ
       obj.class.reflect_on_all_associations.each do |association|
+        next if association.macro.nil? # アソシエーションが存在しない場合はスキップ
+
         associated_value = obj.send(association.name)
         print "#{indent}  << #{association.name} >> (association):"
         if associated_value.respond_to?(:each) # アソシエーションがコレクションの場合
-          next if associated_value.nil? || associated_value.empty?
+          next if associated_value.empty?
           print("\n#{indent}  [\n")
           associated_value.each do |item|
-            next if dumped_objects.include?(item.object_id)
-    
+            next if dumped_objects.any? { |dumped_obj| dumped_obj.object_id == item.object_id && dumped_obj.class == item.class }
+
             # CollectionProxy の内容をダンプ 
-            print("#{indent}    #{association.name}: #{item.class}:#{item.object_id}\n")
+            print("#{indent}    << #{association.name} >> (association): #{item.class}:#{item.object_id}\n")
             print("#{indent}    {\n")
             item.attributes.each do |attr_name, attr_value|
               print("#{indent}      #{attr_name}: #{attr_value.inspect}\n")
@@ -83,7 +87,7 @@ module RubyVarDump
       end
       print "#{indent}}\n"
       print "\n" if level == 0
-    elsif defined?(ActiveRecord::Relation) && obj.is_a?(ActiveRecord::Relation)
+    elsif defined?(ActiveRecord::Relation) && obj.is_a?(ActiveRecord::Relation) # where等での取得をここで処理
       # ActiveRecord::Relation の場合
       print "#{indent}#{obj.class}:#{obj.object_id}\n"
       print "#{indent}[\n"
