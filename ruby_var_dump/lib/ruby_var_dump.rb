@@ -66,35 +66,35 @@ module RubyVarDump
         next if association.macro.nil? # アソシエーションが存在しない場合はスキップ
 
         associated_value = obj.send(association.name)
-        print "#{indent}  << #{association.name} >> (association):"
+        # print "#{indent}  << #{association.name} >> (association):"
         if associated_value.respond_to?(:each) # アソシエーションがコレクションの場合
           next if associated_value.empty?
-          print("\n#{indent}  [\n")
+          # print("\n#{indent}  [\n")
           associated_value.each do |item|
             next if dumped_objects.any? { |dumped_obj| dumped_obj.object_id == item.object_id && dumped_obj.class == item.class }
 
-            # CollectionProxy の内容をダンプ 
-            print("#{indent}    << #{association.name} >> (association): #{item.class}:#{item.object_id}\n")
-            print("#{indent}    {\n")
+            # CollectionProxy の内容（アソシエーション）をダンプ 
+            print("#{indent}  #{association.name} (association): << #{item.class}:#{item.object_id} >>\n")
+            print("#{indent}  {\n")
             item.attributes.each do |attr_name, attr_value|
-              print("#{indent}      #{attr_name}: #{attr_value.inspect}\n")
+              print("#{indent}    #{attr_name}: #{attr_value.inspect}\n")
             end
     
-            print("#{indent}    }\n")
+            print("#{indent}  }\n") #ここまでアソシエーションの描画
           end
-          print("#{indent}  ]\n")
+          # print("#{indent}  ]\n")
         end
       end
       print "#{indent}}\n"
-      print "\n" if level == 0
-    elsif defined?(ActiveRecord::Relation) && obj.is_a?(ActiveRecord::Relation) # where等での取得をここで処理
-      # ActiveRecord::Relation の場合
+      # print "\n" if level == 0
+    elsif defined?(ActiveRecord::Relation) && obj.is_a?(ActiveRecord::Relation)
       print "#{indent}#{obj.class}:#{obj.object_id}\n"
       print "#{indent}[\n"
       obj.each_with_index do |item, index|
-        dump(item, item.class, level + 1, true, dumped_objects, index == 0) # 各オブジェクトに対して再帰的にdumpを呼び出す
+        dump(item, item.class, level + 1, false, dumped_objects, index == 0)
+        # print "," if index < obj.size - 1
       end
-      print "#{indent}]\n"
+      print "#{indent}]"
       print "\n" if level == 0 # メソッドの出力の最後に改行を追加
     elsif obj.respond_to?(:attributes)
       dump(obj.attributes, obj.class, level, false, dumped_objects, false)
