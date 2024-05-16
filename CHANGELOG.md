@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Nothing
 
+## [0.1.4] - 2024-05-17
+### Added
+- Added Active Record relation output.
+
 ## [0.1.3] - 2024-04-20
 ### Added
 - Fixed the implementation of adding a newline at the end.

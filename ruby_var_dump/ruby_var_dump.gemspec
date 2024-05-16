@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "A Ruby gem for detailed debugging and inspection of objects."
   spec.description = "A Ruby gem for detailed debugging and inspection of objects, mimicking PHP's var_dump function."
-  spec.homepage = "https://github.com/hirokiyam"
+  spec.homepage = "https://github.com/hirokiyam/ruby_var_dump"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 
