@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Nothing
 
+## [0.1.5] - 2025-02-27
+### Added
+- Changed the method name from dump to vdump.
+
 ## [0.1.4] - 2024-05-17
 ### Added
 - Added Active Record relation output.

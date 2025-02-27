@@ -5,7 +5,7 @@ require 'stringio'
 require_relative '../lib/ruby_var_dump'
 
 RSpec.describe RubyVarDump do
-  describe '.dump' do
+  describe '.vdump' do
     # 標準出力をキャプチャするためのヘルパーメソッド
     def capture_output
       original_stdout = $stdout
@@ -22,36 +22,36 @@ RSpec.describe RubyVarDump do
 
     context 'with simple objects' do
       it 'dumps strings' do
-        output = capture_output { RubyVarDump.dump("hello") }
+        output = capture_output { RubyVarDump.vdump("hello") }
         expect(output).to eq("\"hello\"\n")
       end
 
       it 'dumps numbers' do
-        output = capture_output { RubyVarDump.dump(123) }
+        output = capture_output { RubyVarDump.vdump(123) }
         expect(output).to eq("123\n")
       end
     end
 
     context 'with arrays' do
       it 'dumps empty arrays' do
-        output = capture_output { RubyVarDump.dump([]) }
+        output = capture_output { RubyVarDump.vdump([]) }
         expect(output).to eq("[]\n")
       end
 
       it 'dumps non-empty arrays' do
-        output = capture_output { RubyVarDump.dump([1, "hello", [1, 2]]) }
+        output = capture_output { RubyVarDump.vdump([1, "hello", [1, 2]]) }
         expect(output).to eq("[\n  1,\n  \"hello\",\n  [\n    1,\n    2\n  ]\n]\n")
       end
     end
 
     context 'with hashes' do
       it 'dumps empty hashes' do
-        output = capture_output { RubyVarDump.dump({}) }
+        output = capture_output { RubyVarDump.vdump({}) }
         expect(output).to eq("{}\n")
       end
 
       it 'dumps non-empty hashes' do
-        output = capture_output { RubyVarDump.dump({key: "value", another_key: 123}) }
+        output = capture_output { RubyVarDump.vdump({key: "value", another_key: 123}) }
         expect(output).to eq("{\n  :key => \"value\",\n  :another_key => 123\n}\n")
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe RubyVarDump do
         class DummyRelation < Array; end
         relation = DummyRelation.new([{id: 1, name: 'Alice'}, {id: 2, name: 'Bob'}])
 
-        output = capture_output { RubyVarDump.dump(relation) }
+        output = capture_output { RubyVarDump.vdump(relation) }
         expected_output = "[\n  {\n    :id => 1,\n    :name => \"Alice\"\n  },\n  {\n    :id => 2,\n    :name => \"Bob\"\n  }\n]\n"
         expect(output).to eq(expected_output)
       end
@@ -73,7 +73,7 @@ RSpec.describe RubyVarDump do
         # attributes メソッドを持つダミーオブジェクト
         dummy_object = double("Model", attributes: {id: 1, name: 'Alice'})
 
-        output = capture_output { RubyVarDump.dump(dummy_object) }
+        output = capture_output { RubyVarDump.vdump(dummy_object) }
         expected_output = "{\n  :id => 1,\n  :name => \"Alice\"\n}\n"
         expect(output).to eq(expected_output)
       end

@@ -45,14 +45,14 @@ require 'ruby_var_dump'
 class ExampleClass
   include RubyVarDump # This line mixes in RubyVarDump methods
 
-  def demonstrate_dump
+  def demonstrate_vdump
     # Define some example data
     my_hash = {key1: "value1", key2: 123}
     my_array = [1, 2, 3, {nested_key: "nested_value"}]
 
-    # Use the dump method to output the structure of these objects
-    dump my_hash
-    dump my_array
+    # Use the vdump method to output the structure of these objects
+    vdump my_hash
+    vdump my_array
   end
 end
 ```
@@ -94,14 +94,14 @@ touch config/initializers/setup_ruby_var_dump.rb
 require 'ruby_var_dump'
 Object.include RubyVarDump
 ```
-This setup will include the RubyVarDump module into the Ruby Object class, making the dump method globally available across all objects within your Rails application.
+This setup will include the RubyVarDump module into the Ruby Object class, making the vdump method globally available across all objects within your Rails application.
 
 
 ### method
 
-dump
+vdump
 ```ruby
-dump "abc"
+vdump "abc"
 ```
 
 Output
@@ -110,10 +110,10 @@ Output
 => nil
 ```
 
-dump
+vdump
 ```ruby
 item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
-dump item
+vdump item
 ```
 
 Output
