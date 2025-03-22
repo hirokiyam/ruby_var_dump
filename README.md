@@ -45,14 +45,19 @@ require 'ruby_var_dump'
 class ExampleClass
   include RubyVarDump # This line mixes in RubyVarDump methods
 
-  def demonstrate_vdump
+  def show_example_usage
     # Define some example data
     my_hash = {key1: "value1", key2: 123}
     my_array = [1, 2, 3, {nested_key: "nested_value"}]
 
     # Use the vdump method to output the structure of these objects
+    # Or you can use the 'vpp' method as an alias
     vdump my_hash
     vdump my_array
+
+    # Alternatively, use the 'vpp' method to achieve the same output
+    vpp my_hash
+    vpp my_array
   end
 end
 ```
@@ -99,9 +104,12 @@ This setup will include the RubyVarDump module into the Ruby Object class, makin
 
 ### method
 
-vdump
+#### vdump ( or 'vpp' as alias )
+You can use `vdump` to print the structure of any Ruby object. Here's how you can use it:
+
 ```ruby
 vdump "abc"
+vpp "abc"
 ```
 
 Output
@@ -110,13 +118,57 @@ Output
 => nil
 ```
 
-vdump
+Example with a more complex structure:
 ```ruby
 item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
+
 vdump item
+vpp item
 ```
 
-Output
+Output:
+
+```
+{
+  :key1 => "value1",
+  :key2 => 1024,
+  :key3 => {
+    :key4 => {
+      :key5 => "value5",
+      :key6 => [
+        11,
+        22
+      ]
+    }
+  }
+}
+=> nil
+```
+
+#### vpp (alias of vdump)
+`vpp`, an alias for `vdump`, stands for "visual pretty print" and can be used interchangeably to achieve the same functionality. Here’s how to use `vpp`:
+
+```ruby
+vpp "abc"
+```
+
+Output:
+
+```
+"abc"
+=> nil
+```
+
+Example with a complex structure:
+
+```ruby
+item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
+
+vpp item
+```
+
+Output:
+
 ```
 {
   :key1 => "value1",

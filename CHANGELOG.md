@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Nothing
 
+## [0.1.6] - 2025-03-22
+### Added
+- Introduced the `vpp` method as an alias for `visual pretty print`, enhancing the usability and accessibility of the visual debugging features. This method serves as a shorthand, making it quicker and more intuitive to generate formatted output.
+
+- Enhanced color coding for output to improve readability and debugging experience:
+  - Numbers are now displayed in blue, making it easier to distinguish numeric data.
+  - Strings are highlighted in salmon pink, helping them stand out in the output.
+  - Active Record relations are shown in red and orange, aiding in differentiation of nested structures within database relationships.
+  - Class objects are represented in green, clarifying type information at a glance.
+
 ## [0.1.5] - 2025-02-27
 ### Added
 - Changed the method name from dump to vdump.
