@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.6] - 2025-03-22
 ### Added
-- Introduced the `vpp` method as an alias for `visual pretty print`, enhancing the usability and accessibility of the visual debugging features. This method serves as a shorthand, making it quicker and more intuitive to generate formatted output.
+- I introduced `vpp` as an alias for `vdump`, where vpp stands for visual pretty print. It performs the same function as vdump, enhancing the usability and accessibility of the visual debugging features.
 
 - Enhanced color coding for output to improve readability and debugging experience:
   - Numbers are now displayed in blue, making it easier to distinguish numeric data.
