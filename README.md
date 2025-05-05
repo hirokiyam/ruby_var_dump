@@ -163,6 +163,8 @@ Output:
 
 In this way, arrays, hashes, and other objects are output graphically.
 
-Version 0.1.4 added support for Active Record output.
-Version 0.1.5 changed the method name from dump to vdump.
-Version 0.1.6 created the alias vpp, which stands for "visual pretty print".
+Version 0.1.4: added support for Active Record output.
+
+Version 0.1.5: changed the method name from dump to vdump.
+
+Version 0.1.6: created the alias vpp, which stands for "visual pretty print".
