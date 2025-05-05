@@ -111,15 +111,13 @@ echo -e "# config/initializers/setup_ruby_var_dump.rb\nrequire 'ruby_var_dump'\n
 
 ### method
 
-<<<<<<< Updated upstream
 #### vdump ( or 'vpp' as alias )
-You can use `vdump` to print the structure of any Ruby object. Here's how you can use it:
+You can use `vdump` or `vpp` to print the structure of any Ruby object. Here's how you can use it:
 
-=======
-vdump or vpp(alias of vdump)
->>>>>>> Stashed changes
+vdump or vpp (alias of vdump)
 ```ruby
 vdump "abc"
+ or
 vpp "abc"
 ```
 
@@ -132,12 +130,9 @@ Output
 Example with a more complex structure:
 ```ruby
 item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
-<<<<<<< Updated upstream
 
 vdump item
-=======
-dump item
->>>>>>> Stashed changes
+ or
 vpp item
 ```
 
@@ -160,51 +155,14 @@ Output:
 => nil
 ```
 
-<<<<<<< Updated upstream
-#### vpp (alias of vdump)
-`vpp`, an alias for `vdump`, stands for "visual pretty print" and can be used interchangeably to achieve the same functionality. Here’s how to use `vpp`:
+### vpp (alias of vdump)
+`vpp`, an alias for `vdump`, stands for "visual pretty print" and can be used interchangeably to achieve the same functionality. 
 
-```ruby
-vpp "abc"
-```
 
-Output:
+### versions
 
-```
-"abc"
-=> nil
-```
-
-Example with a complex structure:
-
-```ruby
-item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
-
-vpp item
-```
-
-Output:
-
-```
-{
-  :key1 => "value1",
-  :key2 => 1024,
-  :key3 => {
-    :key4 => {
-      :key5 => "value5",
-      :key6 => [
-        11,
-        22
-      ]
-    }
-  }
-}
-=> nil
-```
-=======
 In this way, arrays, hashes, and other objects are output graphically.
 
 Version 0.1.4 added support for Active Record output.
 Version 0.1.5 changed the method name from dump to vdump.
 Version 0.1.6 created the alias vpp, which stands for "visual pretty print".
->>>>>>> Stashed changes
