@@ -102,11 +102,22 @@ Object.include RubyVarDump
 This setup will include the RubyVarDump module into the Ruby Object class, making the vdump method globally available across all objects within your Rails application.
 
 
+### One-liner for steps 1 and 2
+If you want to execute steps 1 and 2 in a one-liner command, run this:
+
+```ruby
+echo -e "# config/initializers/setup_ruby_var_dump.rb\nrequire 'ruby_var_dump'\nObject.include RubyVarDump" > config/initializers/setup_ruby_var_dump.rb
+```
+
 ### method
 
+<<<<<<< Updated upstream
 #### vdump ( or 'vpp' as alias )
 You can use `vdump` to print the structure of any Ruby object. Here's how you can use it:
 
+=======
+vdump or vpp(alias of vdump)
+>>>>>>> Stashed changes
 ```ruby
 vdump "abc"
 vpp "abc"
@@ -121,8 +132,12 @@ Output
 Example with a more complex structure:
 ```ruby
 item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
+<<<<<<< Updated upstream
 
 vdump item
+=======
+dump item
+>>>>>>> Stashed changes
 vpp item
 ```
 
@@ -145,6 +160,7 @@ Output:
 => nil
 ```
 
+<<<<<<< Updated upstream
 #### vpp (alias of vdump)
 `vpp`, an alias for `vdump`, stands for "visual pretty print" and can be used interchangeably to achieve the same functionality. Here’s how to use `vpp`:
 
@@ -185,3 +201,10 @@ Output:
 }
 => nil
 ```
+=======
+In this way, arrays, hashes, and other objects are output graphically.
+
+Version 0.1.4 added support for Active Record output.
+Version 0.1.5 changed the method name from dump to vdump.
+Version 0.1.6 created the alias vpp, which stands for "visual pretty print".
+>>>>>>> Stashed changes
