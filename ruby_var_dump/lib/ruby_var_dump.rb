@@ -77,14 +77,16 @@ module RubyVarDump
         next if association.macro.nil? # アソシエーションが存在しない場合はスキップ
 
         associated_value = obj.send(association.name)
-        if associated_value.respond_to?(:each) # アソシエーションがコレクションの場合
-          next if associated_value.empty?
+
+        # has_many や has_and_belongs_to_many など、コレクションを返すアソシエーション
+        if association.macro == :has_many || association.macro == :has_and_belongs_to_many
+          next if associated_value.nil? || (associated_value.respond_to?(:empty?) && associated_value.empty?)
 
           associated_value.each do |item|
             next if dumped_objects.any? { |dumped_obj| dumped_obj.object_id == item.object_id && dumped_obj.class == item.class }
 
             # CollectionProxy の内容（アソシエーション）をダンプ
-            print("#{indent}  #{RED_COLOR}#{association.name} #{ORANGE_COLOR}(association)#{RESET_COLOR}: #{GREEN_COLOR}<< #{item.class}:#{item.object_id} >>#{RESET_COLOR}\n")
+            print("#{indent}  #{RED_COLOR}#{association.name} #{ORANGE_COLOR}(#{association.macro})#{RESET_COLOR}: #{GREEN_COLOR}<< #{item.class}:#{item.object_id} >>#{RESET_COLOR}\n")
             print("#{indent}  {\n")
             item.attributes.each do |attr_name, attr_value|
               print("#{indent}    #{attr_name}: #{colorize_by_type(attr_value)}\n")
@@ -92,6 +94,19 @@ module RubyVarDump
     
             print("#{indent}  }\n") #ここまでアソシエーションの描画
           end
+        # belongs_to や has_one など、単一オブジェクトを返すアソシエーション
+        elsif association.macro == :belongs_to || association.macro == :has_one
+          next if associated_value.nil?
+          next if dumped_objects.any? { |dumped_obj| dumped_obj.object_id == associated_value.object_id && dumped_obj.class == associated_value.class }
+
+          # 単一オブジェクトのアソシエーションをダンプ
+          print("#{indent}  #{RED_COLOR}#{association.name} #{ORANGE_COLOR}(#{association.macro})#{RESET_COLOR}: #{GREEN_COLOR}<< #{associated_value.class}:#{associated_value.object_id} >>#{RESET_COLOR}\n")
+          print("#{indent}  {\n")
+          associated_value.attributes.each do |attr_name, attr_value|
+            print("#{indent}    #{attr_name}: #{colorize_by_type(attr_value)}\n")
+          end
+          
+          print("#{indent}  }\n") #ここまでアソシエーションの描画
         end
       end
       print "#{indent}}\n"

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Nothing
 
+## [0.2.0] - 2025-05-07
+### Added
+- Modified to pick up belongs_to and has_one
+
 ## [0.1.6] - 2025-03-22
 ### Added
 - I introduced `vpp` as an alias for `vdump`, where vpp stands for visual pretty print. It performs the same function as vdump, enhancing the usability and accessibility of the visual debugging features.
