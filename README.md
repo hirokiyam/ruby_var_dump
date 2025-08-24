@@ -170,3 +170,177 @@ Version 0.1.5: changed the method name from dump to vdump.
 Version 0.1.6: created the alias vpp, which stands for "visual pretty print".
 
 Version 0.2.0: modified to pick up belongs_to and has_one.
+
+
+
+# ruby_var_dump 日本語の説明
+
+PHPの `var_dump` 関数を模倣した、オブジェクトの詳細なデバッグ・検査を行うためのRuby用Gemです。
+
+## 使用方法
+
+Rubyのオブジェクトをデバッグするために RubyVarDump モジュールを使用するには、メソッドを使いたいクラスに直接インクルードしてください。
+
+### インストール
+
+まず、アプリケーションのGemfileに以下を追加してください：
+
+```ruby
+gem 'ruby_var_dump'
+```
+
+その後、以下のコマンドでインストール：
+
+```bash
+bundle install
+```
+
+もしくは、以下のコマンドで手動インストールも可能です：
+
+```bash
+gem install ruby_var_dump
+```
+
+### RubyVarDumpのインクルード
+
+クラス内で RubyVarDump のメソッドを使用できるようにするには、クラス定義の先頭に `include RubyVarDump` を追加してください。
+これにより、RubyVarDumpモジュールのメソッドがインスタンスメソッドとして使用できるようになります。
+
+```ruby
+include RubyVarDump
+```
+
+### 使用例
+
+以下は Ruby クラス内で RubyVarDump をインクルードし、使用する例です：
+
+```ruby
+require 'ruby_var_dump'
+
+class ExampleClass
+  include RubyVarDump # RubyVarDumpのメソッドを組み込む
+
+  def show_example_usage
+    # 出力例のデータ
+    my_hash = {key1: "value1", key2: 123}
+    my_array = [1, 2, 3, {nested_key: "nested_value"}]
+
+    # vdump または vpp メソッドで構造を出力
+    vdump my_hash
+    vdump my_array
+
+    # vpp を使用しても同様の出力
+    vpp my_hash
+    vpp my_array
+  end
+end
+```
+
+出力例：
+
+```
+{
+  :key1 => "value1",
+  :key2 => 123
+}
+=> nil
+
+[
+  1,
+  2,
+  3,
+  {
+    :nested_key => "nested_value"
+  }
+]
+=> nil
+```
+
+### Railsでの利用方法
+
+RailsアプリケーションでRubyVarDumpを使用するには、アプリケーション全体でその機能が利用できるように、グローバルミックスインとして設定する必要があります。以下の手順に従ってください。
+
+1. 初期化ファイルを作成(Macを想定。適宜、ファイル config/initializers/setup_ruby_var_dump.rb を作成してください)：
+
+```bash
+touch config/initializers/setup_ruby_var_dump.rb
+```
+
+2. 作成した `setup_ruby_var_dump.rb` に以下を記述：
+
+```ruby
+# config/initializers/setup_ruby_var_dump.rb
+require 'ruby_var_dump'
+Object.include RubyVarDump
+```
+
+この設定により、Rubyの `Object` クラスに RubyVarDump モジュールがインクルードされ、アプリケーション全体で `vdump` メソッドが利用可能になります。
+
+### 手順1 と 手順2 をワンライナーで実行するには以下を実行して下さい。
+
+```bash
+echo -e "# config/initializers/setup_ruby_var_dump.rb\nrequire 'ruby_var_dump'\nObject.include RubyVarDump" > config/initializers/setup_ruby_var_dump.rb
+```
+
+### 提供メソッド
+
+#### vdump（およびそのエイリアス `vpp`）
+
+`vdump` または `vpp` を使用して、任意のRubyオブジェクトの構造を視覚的に出力できます。
+
+```ruby
+vdump "abc"
+# または
+vpp "abc"
+```
+
+出力例：
+
+```
+"abc"
+=> nil
+```
+
+複雑な構造の変数の出力例：
+
+```ruby
+item = {key1: "value1", key2: 1024, key3: {key4: {key5: "value5", key6: [11,22]}}}
+
+vdump item
+# または
+vpp item
+```
+
+出力：
+
+```
+{
+  :key1 => "value1",
+  :key2 => 1024,
+  :key3 => {
+    :key4 => {
+      :key5 => "value5",
+      :key6 => [
+        11,
+        22
+      ]
+    }
+  }
+}
+=> nil
+```
+
+### `vpp`（`vdump` の別名）
+
+`vpp` は `visual pretty print` の略で、`vdump` と同じ機能を持つエイリアスメソッドです。
+
+---
+
+## バージョン履歴
+
+このGemは、配列、ハッシュ、およびその他のオブジェクトの構造を視覚的に出力することができます。
+
+- **v0.1.4**: Active Recordの出力に対応
+- **v0.1.5**: メソッド名を `dump` から `vdump` に変更
+- **v0.1.6**: `vpp`（visual pretty print）という別名を追加
+- **v0.2.0**: `belongs_to` および `has_one` の関連を出力対象に追加
