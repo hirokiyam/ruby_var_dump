@@ -344,3 +344,4 @@ vpp item
 - **v0.1.5**: メソッド名を `dump` から `vdump` に変更
 - **v0.1.6**: `vpp`（visual pretty print）という別名を追加
 - **v0.2.0**: `belongs_to` および `has_one` の関連を出力対象に追加
+- **v0.3.0**: 出力の開始と終了時に区切り線を追加

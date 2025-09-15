@@ -13,9 +13,24 @@ module RubyVarDump
   LIGHT_GREEN_COLOR = "\e[38;5;10m" # 薄緑色
   # LIGHT_BLUE = "\e[38;5;45m"    # 水色
   ORANGE_COLOR = "\e[38;5;214m" # オレンジ色
+  YELLOW_COLOR = "\e[33m"       # 黄色（デバッグ出力開始用）
+  BRIGHT_GREEN_COLOR = "\e[32m" # 明るい緑色（デバッグ出力終了用）
   RESET_COLOR = "\e[0m"         # 色リセット
 
   def vdump(obj, level = 0, is_value = false, dumped_objects = [], is_first=true)
+    # デバッグ出力の開始（最初の呼び出し時のみ）
+    if level == 0 && is_first
+      title = "Start Output (ruby_var_dump)"
+      timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S") # 現在時刻をフォーマット
+      full_title = " #{title} | #{timestamp} " # タイトルと時刻を結合
+      width = 80
+      padding = (width - full_title.length) # 全体の幅からタイトルと時刻の長さを引く
+      left = padding / 2
+      right = padding - left
+      puts "#{YELLOW_COLOR}#{'=' * width}#{RESET_COLOR}"
+      puts "#{YELLOW_COLOR}#{'=' * left}#{full_title}#{'=' * right}#{RESET_COLOR}"
+    end
+
     indent = ' ' * level * 2
 
     if (defined?(ActiveRecord::Base) && obj.is_a?(ActiveRecord::Base)) || (defined?(ActiveRecord::Relation) && obj.is_a?(ActiveRecord::Relation))
@@ -69,8 +84,11 @@ module RubyVarDump
       print "\n" unless is_first  # 最初のレコード以外の場合に改行を入れる
       print "#{indent}#{GREEN_COLOR}#{obj.class}:#{obj.object_id}#{RESET_COLOR}\n"
       print "#{indent}{\n"
-      obj.attributes.each do |attr_name, attr_value|
-        print "#{indent}  #{attr_name}: #{colorize_by_type(attr_value)},\n"
+      # もし obj が attributes メソッドを持っている場合、その属性をダンプ
+      if obj.respond_to?(:attributes)
+        obj.attributes.each do |attr_name, attr_value|
+          print "#{indent}  #{attr_name}: #{colorize_by_type(attr_value)},\n"
+        end
       end
       # リレーションも再帰的にダンプ
       obj.class.reflect_on_all_associations.each do |association|
@@ -88,8 +106,11 @@ module RubyVarDump
             # CollectionProxy の内容（アソシエーション）をダンプ
             print("#{indent}  #{RED_COLOR}#{association.name} #{ORANGE_COLOR}(#{association.macro})#{RESET_COLOR}: #{GREEN_COLOR}<< #{item.class}:#{item.object_id} >>#{RESET_COLOR}\n")
             print("#{indent}  {\n")
-            item.attributes.each do |attr_name, attr_value|
-              print("#{indent}    #{attr_name}: #{colorize_by_type(attr_value)}\n")
+            # もし item が attributes メソッドを持っていれば、その属性もダンプ
+            if item.respond_to?(:attributes)
+              item.attributes.each do |attr_name, attr_value|
+                print("#{indent}    #{attr_name}: #{colorize_by_type(attr_value)}\n")
+              end
             end
     
             print("#{indent}  }\n") #ここまでアソシエーションの描画
@@ -102,8 +123,11 @@ module RubyVarDump
           # 単一オブジェクトのアソシエーションをダンプ
           print("#{indent}  #{RED_COLOR}#{association.name} #{ORANGE_COLOR}(#{association.macro})#{RESET_COLOR}: #{GREEN_COLOR}<< #{associated_value.class}:#{associated_value.object_id} >>#{RESET_COLOR}\n")
           print("#{indent}  {\n")
-          associated_value.attributes.each do |attr_name, attr_value|
-            print("#{indent}    #{attr_name}: #{colorize_by_type(attr_value)}\n")
+          # もし associated_value が attributes メソッドを持っていれば、その属性もダンプ
+          if associated_value.respond_to?(:attributes)
+            associated_value.attributes.each do |attr_name, attr_value|
+              print("#{indent}    #{attr_name}: #{colorize_by_type(attr_value)}\n")
+            end
           end
           
           print("#{indent}  }\n") #ここまでアソシエーションの描画
@@ -123,6 +147,20 @@ module RubyVarDump
     else
       print indent + colorize_by_type(obj) # プリミティブな値の場合を出力
       print "\n"  if level == 0 # メソッドの出力の最後に改行を追加
+    end
+
+    # デバッグ出力の終了
+    if level == 0 && is_first
+      # デバッグ出力の終了
+      title = "End Output (ruby_var_dump)"
+      timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S") # 現在時刻をフォーマット
+      full_title = " #{title} | #{timestamp} " # タイトルと時刻を結合
+      width = 80
+      padding = (width - full_title.length) # 全体の幅からタイトルと時刻の長さを引く
+      left = padding / 2
+      right = padding - left
+      puts "#{BRIGHT_GREEN_COLOR}#{'=' * left}#{full_title}#{'=' * right}#{RESET_COLOR}"
+      puts "#{BRIGHT_GREEN_COLOR}#{'=' * width}#{RESET_COLOR}"
     end
   end
 
