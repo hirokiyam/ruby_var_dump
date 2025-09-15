@@ -2,8 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
-- Nothing
+## [0.3.0] - 2025-05-07
+### Added
+- Added header at the beginning of output and footer at the end of output
 
 ## [0.2.0] - 2025-05-07
 ### Added

@@ -171,6 +171,8 @@ Version 0.1.6: created the alias vpp, which stands for "visual pretty print".
 
 Version 0.2.0: modified to pick up belongs_to and has_one.
 
+Version 0.3.0: added header at the beginning of output and footer at the end of output
+
 
 
 # ruby_var_dump 日本語の説明
