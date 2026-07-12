@@ -7,36 +7,35 @@
 ```
 ruby_var_dump/                          ← git リポジトリのルート（外側）
 ├── MAINTAINING.md                       ← このファイル
-├── CHANGELOG.md  → ruby_var_dump/CHANGELOG.md   (シンボリックリンク)
-├── README.md     → ruby_var_dump/README.md      (シンボリックリンク)
+├── CHANGELOG.md                         ← 実体（GitHub / RubyGems の表示用）
+├── README.md                            ← 実体（GitHub / RubyGems の表示用）
 └── ruby_var_dump/                      ← gem のルート（内側。gemspec・lib・spec がある）
     ├── ruby_var_dump.gemspec
-    ├── CHANGELOG.md                     ← 実体
-    ├── README.md                        ← 実体
+    ├── CHANGELOG.md                     ← 実体（gem 同梱用）
+    ├── README.md                        ← 実体（gem 同梱用）
     └── lib/ruby_var_dump.rb
 ```
 
 - gitリポジトリのルートは外側、gemのルートは内側（`ruby_var_dump/ruby_var_dump/`）。
 - `gem build` は内側ディレクトリの git 管理ファイルだけをパッケージする（gemspec が `git ls-files` を内側で実行するため）。
+- GitHub のリポジトリ表示や RubyGems の Changelog リンクは**外側**を参照し、gem 本体は**内側**を同梱する。
 
 ## どこを編集すべきか
 
-- CHANGELOG.md / README.md の実体は「内側」にある。 編集はどちらのパスから開いても同じ実体を編集する（外側はシンボリックリンクで内側を指しているため）。
 - ソースコードは `ruby_var_dump/lib/ruby_var_dump.rb`。
+- CHANGELOG.md / README.md は**外側と内側の2箇所に実体があり、同じ内容に保つ必要がある**（下記「二重管理」参照）。
 
-## シンボリックリンクの注意点
+## 二重管理について（重要）
 
-外側の `CHANGELOG.md` / `README.md` は内側へのシンボリックリンク（二重管理を避けるため実体は1つ）。
+CHANGELOG.md / README.md は外側（GitHub/RubyGems表示用）と内側（gem同梱用）に**同じ内容の実体を2つ**置いている。
 
-- 種類の確認: `ls -l`（先頭が `l` でリンク、`-` で通常ファイル）。
-- 編集は基本的にそのまま実体に書き込まれるが、一部のエディタの「アトミック保存」でリンクが通常ファイルに置き換わり、二重管理が復活することがある。
-- もし外側が通常ファイルに戻ってしまったら、貼り直す:
+- 理由: シンボリックリンクにすると GitHub / RubyGems で中身がレンダリングされず、リンク先文字列だけが表示されてしまうため、両方とも実体である必要がある。
+- **編集したら必ず両方を同期すること。** 内側を正としてコピーする例:
   ```bash
-  rm CHANGELOG.md README.md
-  ln -s ruby_var_dump/CHANGELOG.md CHANGELOG.md
-  ln -s ruby_var_dump/README.md README.md
+  cp ruby_var_dump/CHANGELOG.md CHANGELOG.md
+  cp ruby_var_dump/README.md README.md
   ```
-- git 上ではリンクへの変更が `typechange` として表示される。
+- **TODO（次回）**: この二重管理はディレクトリの入れ子が原因。gem のルートをリポジトリ直下へ移す「フラット化」を行えば、実体が1箇所になり同期が不要になる。
 
 ## リリース手順
 
