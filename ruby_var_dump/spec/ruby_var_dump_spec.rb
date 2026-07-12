@@ -184,9 +184,34 @@ RSpec.describe RubyVarDump do
       end
     end
   end
-end
 
-# ObjectクラスにRubyVarDumpモジュールのメソッドを追加
-Object.include RubyVarDump
+  describe '.assoc (association output toggle)' do
+    # 他のテストに影響しないよう、テスト後に元の値へ戻す
+    around do |example|
+      saved = RubyVarDump.assoc
+      example.run
+      RubyVarDump.assoc = saved
+    end
+
+    it 'defaults to ON (shows associations)' do
+      expect(RubyVarDump.show_associations?).to be(true)
+    end
+
+    it 'hides associations when set to 0' do
+      RubyVarDump.assoc = 0
+      expect(RubyVarDump.show_associations?).to be(false)
+    end
+
+    it 'shows associations again when set to 1' do
+      RubyVarDump.assoc = 1
+      expect(RubyVarDump.show_associations?).to be(true)
+    end
+
+    it 'also treats false as OFF' do
+      RubyVarDump.assoc = false
+      expect(RubyVarDump.show_associations?).to be(false)
+    end
+  end
+end
 
 # bundle exec rspec spec/ruby_var_dump_spec.rb

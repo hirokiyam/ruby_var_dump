@@ -5,6 +5,21 @@ require_relative "ruby_var_dump/version"
 module RubyVarDump
   class Error < StandardError; end
 
+  # アソシエーション（belongs_to / has_many など）を出力するかどうかのグローバル設定。
+  # デフォルトは 1 (ON)。`RubyVarDump.assoc = 0` で OFF にできる。
+  class << self
+    attr_writer :assoc
+
+    def assoc
+      @assoc.nil? ? 1 : @assoc
+    end
+
+    # 0 / false / nil のときだけ非表示。それ以外（1 など）は表示。
+    def show_associations?
+      !(assoc == 0 || assoc == false || assoc.nil?)
+    end
+  end
+
   # カラーコードの定義
   RED_COLOR = "\e[38;5;196m"    # 赤色
   LIGHT_RED_COLOR = "\e[38;5;203m" # サーモンピンク
@@ -90,8 +105,10 @@ module RubyVarDump
           print "#{indent}  #{attr_name}: #{colorize_by_type(attr_value)},\n"
         end
       end
-      # リレーションも再帰的にダンプ
+      # リレーションも再帰的にダンプ（assoc 設定が ON のときのみ）
       obj.class.reflect_on_all_associations.each do |association|
+        break unless RubyVarDump.show_associations?
+
         next if association.macro.nil? # アソシエーションが存在しない場合はスキップ
 
         associated_value = obj.send(association.name)
@@ -186,4 +203,8 @@ module RubyVarDump
     end
   end
 end
+
+# require するだけで全オブジェクトから vdump / vpp を呼べるように、
+# gem 側で自動的に Object へ include する。
+Object.include(RubyVarDump)
 # gem build ruby_var_dump.gemspec
